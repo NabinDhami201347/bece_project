@@ -1,9 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from "react-native";
+
+import { COLORS } from "./src/constants";
+import Signup from "./src/screens/Auth/Signup";
+import Login from "./src/screens/Auth/Login";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Login />
+      {/* <Signup /> */}
     </View>
   );
 }
@@ -11,8 +16,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: COLORS.background,
+    paddingHorizontal: 20, // Add horizontal padding to provide spacing
   },
 });

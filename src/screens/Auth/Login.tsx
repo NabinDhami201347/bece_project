@@ -7,8 +7,10 @@ import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import { LoginInfo, loginSchema } from "../../schemas/login.schema";
 
-import { login } from "../../api";
+import { api } from "../../api";
 import CustomError from "../../components/CustomError";
+
+import { useMutation } from "@tanstack/react-query";
 
 const Login = () => {
   const [message, setmessage] = useState("");
@@ -23,11 +25,24 @@ const Login = () => {
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
-  const onSubmit = async (info: LoginInfo) => {
-    const response = await login(info);
-    setmessage(response["error"]);
-    console.log(response);
+  const { data, mutate } = useMutation({
+    mutationFn: (login: LoginInfo) => {
+      return api.post("/auth/login", login);
+    },
+    onError: (error) => {
+      // Handle the error here
+      const errorMessage = error?.response?.data?.error;
+      setmessage(errorMessage);
+      console.error("An error occurred during the mutation:", errorMessage);
+      // Perform any necessary actions, such as displaying an error message or triggering additional logic
+    },
+  });
+
+  const onSubmit = async (fields: LoginInfo) => {
+    mutate(fields);
+    console.log(data?.data["access_token"]);
   };
+
   return (
     <View style={styles.container}>
       <CustomInput

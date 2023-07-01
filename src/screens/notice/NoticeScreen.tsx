@@ -49,7 +49,9 @@ const NoticesScreen: React.FC = () => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tagsContainer}>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
           <TouchableOpacity onPress={() => setSelectedTag("")}>
-            <Text style={[styles.tagText, selectedTag === "All" && styles.selectedTagText]}>All</Text>
+            <Text style={[styles.tagText, selectedTag === "All" && styles.selectedTagText, { paddingHorizontal: 10 }]}>
+              All
+            </Text>
           </TouchableOpacity>
 
           {uniqueTags.map((tag) => (
@@ -76,6 +78,7 @@ const NoticesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
     paddingTop: 40,
   },
   loadingText: {

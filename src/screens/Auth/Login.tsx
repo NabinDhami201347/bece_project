@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,9 +11,10 @@ import { api } from "../../api";
 import CustomError from "../../components/CustomError";
 
 import { useMutation } from "@tanstack/react-query";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
-  const [message, setmessage] = useState("");
+  const [message, setMessage] = useState("");
   const {
     control,
     handleSubmit,
@@ -25,20 +26,26 @@ const Login = () => {
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
+  const { setToken } = useAuthContext();
+
   const { data, mutate } = useMutation({
     mutationFn: (login: LoginInfo) => {
       return api.post("/auth/login", login);
     },
     onError: (error) => {
-      // Handle the error here
+      // @ts-ignore
       const errorMessage = error?.response?.data?.error;
-      setmessage(errorMessage);
+      setMessage(errorMessage);
       console.error("An error occurred during the mutation:", errorMessage);
-      // Perform any necessary actions, such as displaying an error message or triggering additional logic
+    },
+    onSuccess: (data) => {
+      const accessToken = data?.data?.access_token;
+      setToken(accessToken); // Set the token using the setToken method from the AuthContext
     },
   });
 
   const onSubmit = async (fields: LoginInfo) => {
+    console.log("clicked");
     mutate(fields);
     console.log(data?.data["access_token"]);
   };

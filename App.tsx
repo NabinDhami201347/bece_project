@@ -1,27 +1,19 @@
-import { StyleSheet, View } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { COLORS } from "./src/constants";
-import Login from "./src/screens/Auth/Login";
-import NoticesScreen from "./src/screens/notice/NoticeScreen";
+import Navigation from "./src/routes/Navigation";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <View style={styles.container}>
-        {/* <Login /> */}
-        <NoticesScreen />
-      </View>
+      <AuthProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <Navigation />
+        </SafeAreaView>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    paddingHorizontal: 20,
-  },
-});

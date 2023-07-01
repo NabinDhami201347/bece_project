@@ -31,6 +31,8 @@ const CustomInput = forwardRef<TextInput, CustomInputProps>(
               onBlur={onBlur}
               placeholderTextColor="#9BABB8"
               style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
               onSubmitEditing={onSubmitEditing}
             />
             {invalid && <CustomError>{error?.message}</CustomError>}

@@ -31,4 +31,4 @@ yarn add @react-native-community/async-storage @react-navigation/native @react-n
 npx expo install @react-native-async-storage/async-storage@1.17.11 react-native-safe-area-context@4.5.0  react-native-gesture-handler@~2.9.0
 ```
 
-### [Authentication Flow](https://reactnavigation.org/docs/auth-flow/) | [Secure Store](https://docs.expo.dev/versions/latest/sdk/securestore/) | [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/usage)
+### [Authentication Flow](https://reactnavigation.org/docs/auth-flow/) | [Secure Store](https://docs.expo.dev/versions/latest/sdk/securestore/) | [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/usage) | [Image Picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)

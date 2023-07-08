@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { initialBooks } from "../constants";
 
 export interface Book {
@@ -51,6 +51,12 @@ export const BookProvider = ({ children }: BookProviderProps) => {
       }
     });
   });
+
+  useEffect(() => {
+    const initialTag = tags[0]; // Assuming the first tag in the array is the initial tag
+    setSelectedTag(initialTag);
+    filterBooksByTag(initialTag);
+  }, []);
 
   return (
     <BookContext.Provider value={{ books, selectBook, selectedBook, selectedTag, filterBooksByTag, tags }}>

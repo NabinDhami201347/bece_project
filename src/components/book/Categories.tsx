@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useBookContext } from "../../contexts/BookContext";
 
 const Categories = () => {
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: "#fff",
+    textTransform: "capitalize",
     fontSize: 16,
   },
 });

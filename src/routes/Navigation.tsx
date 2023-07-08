@@ -9,10 +9,13 @@ import Login from "../screens/Auth/Login";
 import Signup from "../screens/Auth/Signup";
 import LogoutButton from "../screens/Auth/Logout";
 import { useAuthContext } from "../contexts/AuthContext";
+import LibraryScreen from "../screens/library/Library";
 
 export type StackParamList = {
   Login: undefined;
   Notice: undefined;
+  Library: undefined;
+  Book: undefined;
   Profile: undefined;
   Signup: undefined;
 };
@@ -36,6 +39,7 @@ const Navigation = () => {
         >
           <Tab.Screen name="Notice" component={NoticesScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
+          <Tab.Screen name="Library" component={LibraryScreen} />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator

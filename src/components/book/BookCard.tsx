@@ -1,22 +1,27 @@
-import React, { useCallback } from "react";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Paragraph, SmallHeading } from "../Heading";
-import { Book, useBookContext } from "../../contexts/BookContext";
+import { Book } from "../../contexts/BookContext";
 
-const BookCard: React.FC<Book> = ({ image, title, author, description, tags }) => {
-  const { selectBook } = useBookContext();
+interface BookCardProps {
+  book: Book;
+}
 
-  const handleBookSelection = useCallback(() => {
-    const book = { image, title, author, description, tags };
-    selectBook(book);
-  }, [image, title, author, description, tags, selectBook]);
+const BookCard: React.FC<BookCardProps> = ({ book }) => {
+  const navigation = useNavigation();
+
+  const handleBookSelection = () => {
+    // @ts-ignore
+    navigation.navigate("Book", book);
+  };
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleBookSelection}>
-      <Image source={{ uri: image }} style={styles.image} />
-      <SmallHeading>{title}</SmallHeading>
-      <Paragraph>{author}</Paragraph>
+      <Image source={{ uri: book.image }} style={styles.image} />
+      <SmallHeading>{book.title}</SmallHeading>
+      <Paragraph>{book.author}</Paragraph>
     </TouchableOpacity>
   );
 };

@@ -4,7 +4,6 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { LargeHeading } from "../../components/Heading";
 import Categories from "../../components/book/Categories";
 import Books from "../../components/book/Books";
-import BookInformation from "../../components/book/BookInformation";
 
 interface SectionProps {
   title: string;
@@ -29,7 +28,6 @@ const Library = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View>
-        <BookInformation />
         <Categories />
       </View>
 

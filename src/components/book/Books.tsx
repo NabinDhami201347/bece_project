@@ -7,15 +7,7 @@ import { useBookContext } from "../../contexts/BookContext";
 const Books = () => {
   const { books } = useBookContext();
 
-  const renderBookCard = ({ item }) => (
-    <BookCard
-      image={item.image}
-      title={item.title}
-      tags={item.tags}
-      description={item.description}
-      author={item.author}
-    />
-  );
+  const renderBookCard = ({ item }) => <BookCard book={item} />;
 
   return (
     <FlatList

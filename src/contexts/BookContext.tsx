@@ -7,6 +7,8 @@ export interface Book {
   author: string;
   image: string;
   tags: string[];
+  available: number;
+  totalBooks: number;
 }
 
 interface BookContextProps {
@@ -35,7 +37,7 @@ export const BookProvider = ({ children }: BookProviderProps) => {
 
   const filterBooksByTag = (tag: string) => {
     setSelectedTag(tag);
-    if (tag === "AllBooks") {
+    if (tag === "All Books") {
       setBooks(initialBooks);
     } else {
       const filteredBooks = initialBooks.filter((book) => book.tags.includes(tag));
@@ -43,7 +45,7 @@ export const BookProvider = ({ children }: BookProviderProps) => {
     }
   };
 
-  const tags: string[] = ["AllBooks"];
+  const tags: string[] = ["All Books"];
   initialBooks.forEach((book) => {
     book.tags.forEach((tag) => {
       if (!tags.includes(tag)) {

@@ -1,12 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ImageSourcePropType } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { formatDate } from "../utils/date";
 
 interface NoticeCardProps {
   title: string;
-  summary: string;
+  description: string;
   tag: string;
   date: string;
+  image?: ImageSourcePropType | string;
 }
 
 const styles = StyleSheet.create({
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
   },
-  summary: {
+  description: {
     color: "white",
     marginBottom: 10,
   },
@@ -41,16 +43,25 @@ const styles = StyleSheet.create({
   },
 });
 
-const NoticeCard: React.FC<NoticeCardProps> = ({ title, summary, tag, date }) => {
+const NoticeCard: React.FC<NoticeCardProps> = ({ title, description, tag, date, image }) => {
+  const navigation = useNavigation();
+
+  const handleCardPress = () => {
+    // @ts-ignore
+    navigation.navigate("Notice", { title, description, tag, date, image });
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.summary}>{summary}</Text>
-      <View style={styles.rowContainer}>
-        <Text style={styles.tag}>{tag}</Text>
-        <Text style={styles.date}>{formatDate(date)}</Text>
+    <TouchableOpacity onPress={handleCardPress}>
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+        <View style={styles.rowContainer}>
+          <Text style={styles.tag}>{tag}</Text>
+          <Text style={styles.date}>{formatDate(date)}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

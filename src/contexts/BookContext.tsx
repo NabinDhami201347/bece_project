@@ -22,11 +22,7 @@ interface BookContextProps {
 
 const BookContext = createContext<BookContextProps | null>(null);
 
-interface BookProviderProps {
-  children: ReactNode;
-}
-
-export const BookProvider = ({ children }: BookProviderProps) => {
+export const BookProvider = ({ children }: { children: ReactNode }) => {
   const [books, setBooks] = useState<Book[]>(initialBooks);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [selectedTag, setSelectedTag] = useState<string>("");

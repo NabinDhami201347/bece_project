@@ -17,12 +17,16 @@ import {
   LoginScreen,
   ProfileScreen,
 } from "../screens";
+import NoticesScreen from "../screens/notice/NoticesScreen";
+import NoticeScreen from "../screens/notice/NoticeScreen";
 
 export type StackParamList = {
   Login: undefined;
-  Notices: undefined;
+  All: undefined;
   NoticeHome: undefined;
   Department: undefined;
+  Notices: undefined;
+  Notice: undefined;
   College: undefined;
   University: undefined;
   Library: undefined;
@@ -38,7 +42,11 @@ const MaterialTopTab = createMaterialTopTabNavigator<StackParamList>();
 
 const NoticeTabs = () => {
   return (
-    <MaterialTopTab.Navigator>
+    <MaterialTopTab.Navigator
+      screenOptions={{ tabBarItemStyle: { padding: 0 } }}
+      sceneContainerStyle={{ backgroundColor: "black" }}
+    >
+      <MaterialTopTab.Screen name="All" component={NoticesScreen} />
       <MaterialTopTab.Screen name="Department" component={DepartmentScreen} />
       <MaterialTopTab.Screen name="College" component={CollegeScreen} />
       <MaterialTopTab.Screen name="University" component={UniversityScreen} />
@@ -54,6 +62,14 @@ const LibraryStack = () => {
     </Stack.Navigator>
   );
 };
+const NoticeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerRight: () => <LogoutButton />, cardStyle: { backgroundColor: "black" } }}>
+      <Stack.Screen name="Notices" component={NoticeTabs} />
+      <Stack.Screen name="Notice" component={NoticeScreen} />
+    </Stack.Navigator>
+  );
+};
 
 const Navigation = () => {
   const { isAuthenticated } = useAuthContext();
@@ -62,7 +78,7 @@ const Navigation = () => {
     <NavigationContainer>
       {isAuthenticated ? (
         <Tab.Navigator screenOptions={{ headerRight: () => <LogoutButton /> }}>
-          <Tab.Screen name="NoticeHome" component={NoticeTabs} options={{ headerShown: false, title: "Notices" }} />
+          <Tab.Screen name="NoticeHome" component={NoticeStack} options={{ headerShown: false, title: "Notices" }} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
           <Tab.Screen name="LibraryHome" component={LibraryStack} options={{ headerShown: false, title: "Library" }} />
         </Tab.Navigator>

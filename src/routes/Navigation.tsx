@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
 
-import LogoutButton from "../screens/Auth/Logout";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { useAuthContext } from "../contexts/AuthContext";
 
 import {
@@ -16,13 +17,16 @@ import {
   SignupScreen,
   LoginScreen,
   ProfileScreen,
+  HomeScreen,
 } from "../screens";
 import NoticesScreen from "../screens/notice/NoticesScreen";
 import NoticeScreen from "../screens/notice/NoticeScreen";
+import ProfileImage from "../components/header/ProfileImage";
 
 export type StackParamList = {
   Login: undefined;
   All: undefined;
+  Home: undefined;
   NoticeHome: undefined;
   Department: undefined;
   Notices: undefined;
@@ -56,7 +60,7 @@ const NoticeTabs = () => {
 
 const LibraryStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerRight: () => <LogoutButton />, cardStyle: { backgroundColor: "black" } }}>
+    <Stack.Navigator screenOptions={{ headerRight: () => <ProfileImage />, cardStyle: { backgroundColor: "black" } }}>
       <Stack.Screen name="Library" component={LibraryScreen} />
       <Stack.Screen name="Book" component={BookScreen} />
     </Stack.Navigator>
@@ -64,7 +68,7 @@ const LibraryStack = () => {
 };
 const NoticeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerRight: () => <LogoutButton />, cardStyle: { backgroundColor: "black" } }}>
+    <Stack.Navigator screenOptions={{ headerRight: () => <ProfileImage />, cardStyle: { backgroundColor: "black" } }}>
       <Stack.Screen name="Notices" component={NoticeTabs} />
       <Stack.Screen name="Notice" component={NoticeScreen} />
     </Stack.Navigator>
@@ -77,10 +81,36 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <Tab.Navigator screenOptions={{ headerRight: () => <LogoutButton /> }}>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={({ route }) => ({
+            headerRight: () => <ProfileImage />,
+            tabBarIcon: ({ color, size, focused }) => {
+              let iconName;
+              let IconComponent;
+
+              if (route.name === "Home") {
+                iconName = focused ? "home" : "home-outline";
+                IconComponent = Ionicons;
+              } else if (route.name === "NoticeHome") {
+                iconName = focused ? "notifications" : "notifications-outline";
+                IconComponent = Ionicons;
+              } else if (route.name === "Profile") {
+                iconName = focused ? "account-circle" : "account-circle-outline";
+                IconComponent = MaterialCommunityIcons;
+              } else if (route.name === "LibraryHome") {
+                iconName = focused ? "book" : "book-outline";
+                IconComponent = Ionicons;
+              }
+
+              return <IconComponent name={iconName} size={size} color={color} />;
+            },
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} options={{ title: "Home" }} />
           <Tab.Screen name="NoticeHome" component={NoticeStack} options={{ headerShown: false, title: "Notices" }} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
           <Tab.Screen name="LibraryHome" component={LibraryStack} options={{ headerShown: false, title: "Library" }} />
+          <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: "Profile" }} />
         </Tab.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>

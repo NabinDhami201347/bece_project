@@ -8,7 +8,10 @@ import CollegeScreen from "../screens/notice/College";
 import DepartmentScreen from "../screens/notice/Department";
 import UniversityScreen from "../screens/notice/University";
 
+import HomeScreen from "./home/Home";
+
 export {
+  HomeScreen,
   LibraryScreen,
   BookScreen,
   CollegeScreen,

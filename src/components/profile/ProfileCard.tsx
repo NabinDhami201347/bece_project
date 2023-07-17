@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
     width: "100%",
+    flex: 1,
   },
   cardContent: {
     marginLeft: 16,

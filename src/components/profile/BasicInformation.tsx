@@ -53,6 +53,7 @@ const BasicInformation = () => {
         },
       });
       console.log("Upload successful:", response.data);
+      setSelectedImage(null);
     } catch (error) {
       console.log("Upload failed:", error.message);
     }

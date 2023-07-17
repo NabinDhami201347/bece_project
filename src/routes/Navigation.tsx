@@ -19,13 +19,18 @@ import {
   ProfileScreen,
   HomeScreen,
 } from "../screens";
-import NoticesScreen from "../screens/notice/NoticesScreen";
-import NoticeScreen from "../screens/notice/NoticeScreen";
+import NoticesScreen from "../screens/notice/Notices";
+import NoticeScreen from "../screens/notice/Notice";
 import ProfileImage from "../components/header/ProfileImage";
+import CommunityScreen from "../screens/community/Community";
+import PostScreen from "../screens/community/Post";
 
 export type StackParamList = {
   Login: undefined;
   All: undefined;
+  CommunityStack: undefined;
+  Community: undefined;
+  Post: undefined;
   Home: undefined;
   NoticeHome: undefined;
   Department: undefined;
@@ -38,11 +43,58 @@ export type StackParamList = {
   Book: undefined;
   Profile: undefined;
   Signup: undefined;
+  Logout: undefined;
+  Setting: undefined;
 };
 
 const Stack = createStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator<StackParamList>();
 const MaterialTopTab = createMaterialTopTabNavigator<StackParamList>();
+
+const TabNavigation = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        headerRight: () => <ProfileImage />,
+        tabBarActiveTintColor: "red",
+        tabBarIcon: ({ color, size, focused }) => {
+          let iconName: string;
+          let IconComponent: any;
+
+          if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+            IconComponent = Ionicons;
+          } else if (route.name === "NoticeHome") {
+            iconName = focused ? "notifications" : "notifications-outline";
+            IconComponent = Ionicons;
+          } else if (route.name === "Profile") {
+            iconName = focused ? "account-circle" : "account-circle-outline";
+            IconComponent = MaterialCommunityIcons;
+          } else if (route.name === "CommunityStack") {
+            iconName = focused ? "chat" : "chat-outline";
+            IconComponent = MaterialCommunityIcons;
+          } else if (route.name === "LibraryHome") {
+            iconName = focused ? "book" : "book-outline";
+            IconComponent = Ionicons;
+          }
+
+          return <IconComponent name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} options={{ title: "Home" }} />
+      <Tab.Screen name="NoticeHome" component={NoticeStack} options={{ headerShown: false, title: "Notices" }} />
+      <Tab.Screen name="LibraryHome" component={LibraryStack} options={{ headerShown: false, title: "Library" }} />
+      <Tab.Screen
+        name="CommunityStack"
+        component={CommunityStack}
+        options={{ headerShown: false, title: "NCIT Society" }}
+      />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: "Profile" }} />
+    </Tab.Navigator>
+  );
+};
 
 const NoticeTabs = () => {
   return (
@@ -66,6 +118,16 @@ const LibraryStack = () => {
     </Stack.Navigator>
   );
 };
+
+const CommunityStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerRight: () => <ProfileImage />, cardStyle: { backgroundColor: "black" } }}>
+      <Stack.Screen name="Community" component={CommunityScreen} />
+      <Stack.Screen name="Post" component={PostScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const NoticeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerRight: () => <ProfileImage />, cardStyle: { backgroundColor: "black" } }}>
@@ -81,37 +143,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={({ route }) => ({
-            headerRight: () => <ProfileImage />,
-            tabBarIcon: ({ color, size, focused }) => {
-              let iconName;
-              let IconComponent;
-
-              if (route.name === "Home") {
-                iconName = focused ? "home" : "home-outline";
-                IconComponent = Ionicons;
-              } else if (route.name === "NoticeHome") {
-                iconName = focused ? "notifications" : "notifications-outline";
-                IconComponent = Ionicons;
-              } else if (route.name === "Profile") {
-                iconName = focused ? "account-circle" : "account-circle-outline";
-                IconComponent = MaterialCommunityIcons;
-              } else if (route.name === "LibraryHome") {
-                iconName = focused ? "book" : "book-outline";
-                IconComponent = Ionicons;
-              }
-
-              return <IconComponent name={iconName} size={size} color={color} />;
-            },
-          })}
-        >
-          <Tab.Screen name="Home" component={HomeScreen} options={{ title: "Home" }} />
-          <Tab.Screen name="NoticeHome" component={NoticeStack} options={{ headerShown: false, title: "Notices" }} />
-          <Tab.Screen name="LibraryHome" component={LibraryStack} options={{ headerShown: false, title: "Library" }} />
-          <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: "Profile" }} />
-        </Tab.Navigator>
+        <TabNavigation />
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />

@@ -1,4 +1,4 @@
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen from "./profile/Profile";
 import BookScreen from "../screens/library/Book";
 import LoginScreen from "../screens/Auth/Login";
 import SignupScreen from "../screens/Auth/Signup";

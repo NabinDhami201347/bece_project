@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +30,7 @@ const Login = () => {
 
   const { data, mutate } = useMutation({
     mutationFn: (login: LoginInfo) => {
+      console.log(data, mutate, "Dayta");
       return api.post("/auth/login", login);
     },
     onError: (error) => {
@@ -45,7 +46,7 @@ const Login = () => {
   });
 
   const onSubmit = async (fields: LoginInfo) => {
-    console.log("clicked");
+    console.log(fields, "fields");
     mutate(fields);
     console.log(data?.data["access_token"]);
   };
